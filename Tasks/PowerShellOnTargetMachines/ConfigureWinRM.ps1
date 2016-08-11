@@ -132,12 +132,14 @@ function Add-FirewallException
     }
 
     # Delete an exisitng rule
+    # en-us: "Windows Remote Management (HTTPS-In)"
+    # de-de: "Windows-Remoteverwaltung (HTTP eingehend)"
     Write-Verbose -Verbose "Deleting the existing firewall exception for port $port"
-    netsh advfirewall firewall delete rule name="Windows Remote Management (HTTPS-In)" dir=in protocol=TCP localport=$port | Out-Null
+    netsh advfirewall firewall delete rule name="Windows-Remoteverwaltung (HTTP eingehend)" dir=in protocol=TCP localport=$port | Out-Null
 
     # Add a new firewall rule
     Write-Verbose -Verbose "Adding the firewall exception for port $port"
-    netsh advfirewall firewall add rule name="Windows Remote Management (HTTPS-In)" dir=in action=allow protocol=TCP localport=$port | Out-Null
+    netsh advfirewall firewall add rule name="Windows-Remoteverwaltung (HTTP eingehend)" dir=in action=allow protocol=TCP localport=$port | Out-Null
 }
 
 
@@ -145,7 +147,8 @@ function Add-FirewallException
 #                                              Configure WinRM                                                                  #
 #################################################################################################################################
 
-netsh advfirewall firewall set rule group="File and Printer Sharing" new enable=yes
+#en-us: "File and Printer Sharing"
+netsh advfirewall firewall set rule group="Datei- und Druckerfreigabe" new enable=yes
 winrm quickconfig
 
 # The default MaxEnvelopeSizekb on Windows Server is 500 Kb which is very less. It needs to be at 8192 Kb. The small envelop size if not changed
